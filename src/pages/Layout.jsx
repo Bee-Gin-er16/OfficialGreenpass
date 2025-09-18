@@ -844,12 +844,25 @@ const socialIconMap = {
   Twitter: <Twitter className="h-6 w-6" />,
   Instagram: <Instagram className="h-6 w-6" />,
   Linkedin: <Linkedin className="h-6 w-6" />,
-  LinkedIn: <Linkedin className="h-6 w-6" />,
   YouTube: <Youtube className="h-6 w-6" />,
-  Youtube: <Youtube className="h-6 w-6" />,
 };
 
+const socialLinks = [
+  { platform: "Facebook", url: "https://facebook.com" },
+  { platform: "Twitter", url: "https://twitter.com" },
+  { platform: "Instagram", url: "https://instagram.com" },
+  { platform: "Linkedin", url: "https://linkedin.com" },
+  { platform: "YouTube", url: "https://youtube.com" },
+];
+
 const Footer = ({ getCompanyName, brandSettings }) => {
+  // TODO find an alternative; brandSettings contains nothing/null which gives no links here
+  // console.log("Check for social_links:", brandSettings?.social_links);
+  // console.log("brandSettings:", brandSettings);
+  // if (!brandSettings) {
+  //   console.warn("⚠️ brandSettings is null — falling back to defaults");
+  // }
+
   const defaultFooterLinks = [
     {
       column_title: getText("solutions"),
@@ -909,13 +922,35 @@ const Footer = ({ getCompanyName, brandSettings }) => {
           ))}
         </div>
         <div className="mt-8 border-t border-gray-700 pt-8 md:flex md:items-center md:justify-between">
-          <div className="flex space-x-6 md:order-2">
-            {(brandSettings?.social_links || []).map((social, index) => (
+          <div className="flex flex-col gap-y-2 justify-start align-center md:order-2">
+            <h1 className="font-bold">Follow Us</h1>
+
+            {/* TODO: Fix the code below */}
+            {/* {(brandSettings?.social_links || []).map((social, index) => (
               <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
                 <span className="sr-only">{social.platform}</span>
                 {socialIconMap[social.platform] || socialIconMap[(social.platform || "").trim()] || <Link to={social.url}>↗</Link>}
               </a>
-            ))}
+            ))} */}
+
+            {/*BRUTE FORCE METHOD*/}
+            {/* <div className="flex flex-row gap-2">
+              {Object.values(socialIconMap).map((icon, index) => (
+                <a key={index} href="#" className="text-gray-400 hover:text-white">
+                  {icon}
+                </a>
+              ))}
+            </div> */}
+
+            {/* ALTERNATIVE METHOD */}
+            <div className="flex flex-row gap-2">
+              {socialLinks.map((social, index) => (
+                <a key={index} href={social.url} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white">
+                  {socialIconMap[social.platform]}
+                </a>
+              ))}
+            </div>
+
           </div>
           <p className="mt-8 text-base text-gray-400 md:mt-0 md:order-1">
             &copy; {new Date().getFullYear()} {getCompanyName()}. {brandSettings?.footer_text || "All rights reserved."}
