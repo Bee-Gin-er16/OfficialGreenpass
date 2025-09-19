@@ -333,6 +333,104 @@ const Features = ({ features }) => {
   );
 };
 
+const GainEvent = () => {
+  const benefits = [
+    {
+      number: "01",
+      title: "Direct access to potential students",
+      desc: "Receive a complete student database to optimize recruitment.",
+    },
+    {
+      number: "02",
+      title: "Approved by local authorities",
+      desc: "A transparent, legally compliant, and reputable event.",
+    },
+    {
+      number: "03",
+      title: "Expand your network",
+      desc: "Connect with other schools and strategic partners.",
+    },
+    {
+      number: "04",
+      title: "Full support all throughout the event",
+      desc: "Helping schools follow up effectively and maximize recruitment opportunities.",
+    },
+    {
+      number: "05",
+      title: "Enhance reputation & visibility",
+      desc: "Strengthen position and build trust with parents, students, and partners.",
+    },
+  ];
+
+  return (
+    <section className="bg-white">
+      {/* Hero Section */}
+      <div
+        id="event-hero"
+        className="relative w-full h-[60vh] bg-black text-white flex flex-col text-center justify-center py-20
+        bg-[url('https://images.unsplash.com/photo-1663255073574-30b6e5e7c4f9')] 
+        bg-cover bg-center"
+      >
+        <div className="absolute inset-0 bg-black/65"></div>
+        <h2 className="relative text-3xl px-8 font-bold mb-2">GreenPass invites you to join</h2>
+        <h2 className="relative text-6xl px-8 font-bold mb-2">GAIN FAIR 2025</h2>
+        <h3 className="relative text-xl font-semibold mb-2"> 📅 Saturday, October 25, 2025</h3>
+        <button className="relative self-center rounded-lg mt-4 bg-white/20 border-2 border-white/50 text-white hover:bg-white/30 px-8 py-4 text-lg font-semibold transition-all duration-200">
+          Register to Event
+        </button>
+      </div>
+
+      {/* Description + Benefits */}
+      <div id="event-desc" className="flex flex-col md:flex-row gap-y-16 py-16">
+        {/* Left Column */}
+        <div className="w-full md:w-1/3 mx-auto px-12 md:px-4">
+          <h3 className="text-xl font-semibold mb-2">
+            📍 Location: Quang Tri, Vietnam
+          </h3>
+          <p className="text-xl mt-8">
+            GAIN FAIR is a global networking platform that provides information
+            on education and immigration, helping international students prepare
+            effectively for their study abroad journey and potential settlement
+            opportunities.
+          </p>
+          <p className="text-xl mt-8">
+            This exciting event offers institutions a unique opportunity to meet
+            motivated Vietnamese students and families, while strengthening
+            brand presence in one of Southeast Asia's most promising education
+            markets.
+          </p>
+        </div>
+
+        {/* Right Column - Benefits */}
+        <div className="w-full md:w-1/3 mx-auto px-12 md:px-4">
+          <h2 className="text-2xl font-bold text-center mb-4">
+            5 Key Benefits of Joining
+          </h2>
+          <div className="grid grid-cols-1 gap-4">
+            {(benefits || defaultBenefits).map((benefit, index) => (
+              <div
+                key={index}
+                className="p-6 border rounded-xl shadow-md hover:shadow-lg transition"
+              >
+                <h3 className="font-bold mt-2 text-xl">
+                  <span className="text-2xl font-bold pr-4 text-indigo-600">
+                    {benefit.number}
+                  </span>
+                  {benefit.title}
+                </h3>
+                <p className="text-green-700 font-semibold mt-1">
+                  {benefit.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
 const SchoolProgramsSection = ({ content, schools }) => (
   <div className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -740,6 +838,7 @@ export default function Home() {
     <div className="min-h-screen">
       <Hero content={content} />
       <Features features={content?.features_section} />
+      <GainEvent/>
       <SchoolProgramsSection content={content} schools={schools} />
       <Stats stats={content?.stats_section} />
       <Testimonials testimonials={content?.testimonials_section} />

@@ -50,6 +50,13 @@ import {
   SidebarFooter,
   SidebarProvider,
 } from "@/components/ui/sidebar";
+import { 
+  FaFacebook, 
+  FaTwitter, 
+  FaInstagram, 
+  FaLinkedin, 
+  FaYoutube 
+} from "react-icons/fa";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -840,11 +847,11 @@ const PublicChatWidget = () => {
 };
 
 const socialIconMap = {
-  Facebook: <Facebook className="h-6 w-6" />,
-  Twitter: <Twitter className="h-6 w-6" />,
-  Instagram: <Instagram className="h-6 w-6" />,
-  Linkedin: <Linkedin className="h-6 w-6" />,
-  YouTube: <Youtube className="h-6 w-6" />,
+  Facebook: <FaFacebook size={28} color="#1877F2" />,
+  Twitter: <FaTwitter size={28} color="#1DA1F2" />,
+  Instagram: <FaInstagram size={28} color="#E1306C" />,
+  Linkedin: <FaLinkedin size={28} color="#0077B5" />,
+  YouTube: <FaYoutube size={28} color="#FF0000" />,
 };
 
 const socialLinks = [
