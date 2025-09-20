@@ -215,6 +215,135 @@ const Hero = ({ content }) => (
 );
 
 // Problematic; tried to reorder LIA but it keeps breaking 
+const Features = ({ features, showIndex }) => {
+  const defaultFeatures = [
+    {
+      icon: "School",
+      title: "Discover Top Schools",
+      description: "Explore thousands of programs from top institutions worldwide. Our smart filters help you find the perfect match for your academic and career goals.",
+      image_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
+      link_url: createPageUrl('Schools'),
+      link_text: "Explore Schools",
+      media_position: 'right'
+    },
+    {
+      icon: "Users",
+      title: "Expert Agent Guidance",
+      description: "Connect with verified education agents who can guide you through every step, from school selection to visa paperwork.",
+      youtube_url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
+      link_url: createPageUrl('FindAgent'),
+      link_text: "Find an Agent",
+      media_position: 'left'
+    },
+    {
+      icon: "GraduationCap",
+      title: "Recommended For You: University of Toronto",
+      description: "A world-renowned university in a vibrant, multicultural city.",
+      image_url: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
+      link_url: createPageUrl('SchoolDetails?id=university-of-toronto'),
+      link_text: "View University",
+      media_position: 'right',
+      school_rating: 4.8,
+      show_rating: true
+    }
+  ];
+
+  const featuresToDisplay = (features && features.length > 0) ? features : defaultFeatures;
+
+  return (
+    <div className="py-20 sm:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {showIndex === 1 && (
+          <div id='TOP-LEAD' className="text-center mb-16 sm:mb-20 space-y-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
+              Top Leading Schools
+            </h2>
+            <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              From finding the perfect program to landing in your new country, we've got every step covered.
+            </p>
+          </div>
+        )}
+
+        <div id='MOTION-PARENT' className="space-y-16 sm:space-y-24">
+          {(() => {
+            const feature = featuresToDisplay[showIndex];
+
+            return feature ? (
+              <motion.div
+                key={showIndex}
+                id='MOTION-DIV'
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center"
+              >
+                <div id='LIA-DESC' className={`space-y-6 text-center lg:text-left ${feature.media_position === 'right' ? 'lg:order-1' : 'lg:order-2'}`}>
+                  {feature.show_rating ? (
+                    <div id='RATING-CONTAINER' className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
+                      <div id='sch_rate' className="flex items-center gap-2">
+                        <div className="flex items-center">
+                          {[...Array(5)].map((_, i) => (
+                            <Star
+                              key={i}
+                              className={`w-5 h-5 ${
+                                i < Math.floor(feature.school_rating || 4.5)
+                                  ? 'text-yellow-400 fill-yellow-400'
+                                  : 'text-gray-300'
+                              }`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm font-semibold text-gray-700">
+                          {(feature.school_rating || 4.5).toFixed(1)}
+                        </span>
+                      </div>
+                    </div>
+                  ) : (
+                    <div id='GLOBE-ICON' className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
+                      <IconResolver name={feature.icon} className="h-7 w-7 text-green-700" />
+                    </div>
+                  )}
+
+                  <h3 id='SCHOOL-LINK' className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                    <Link to={feature.link_url || '#'} className="hover:text-green-700 transition-colors duration-200">
+                      {feature.title}
+                    </Link>
+                  </h3>
+                  <p id='SCHOOL-DESC' className="text-lg text-slate-600 leading-relaxed">{feature.description}</p>
+                  {feature.link_url && feature.link_text && (
+                    <Link to={feature.link_url}>
+                      <Button size="lg" className="mt-4 bg-green-600 hover:bg-green-700 text-white shadow-md">
+                        {feature.link_text}
+                        <ArrowRight className="ml-2 w-5 h-5" />
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+
+                <div id='INTRO-DESC' className={`relative ${feature.media_position === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <div id='YOUTUBE-VID' className="bg-white p-2 rounded-2xl shadow-2xl border border-gray-100">
+                    {feature.youtube_url ? (
+                      <YouTubeEmbed url={feature.youtube_url} className="w-full h-56 sm:h-80 rounded-xl overflow-hidden" />
+                    ) : feature.image_url ? (
+                      <img id='IMG-PLACEHOLDER' src={feature.image_url} alt={feature.title} className="w-full h-auto object-cover rounded-xl" />
+                    ) : (
+                      <div id='TRACK-ICON' className="w-full h-56 sm:h-80 bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl flex items-center justify-center">
+                        <IconResolver name={feature.icon} className="h-16 w-16 text-slate-400" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ) : null;
+          })()}
+        </div>
+        
+      </div>
+    </div>
+  );
+};
+
 // const Features = ({ features }) => {
 //   const defaultFeatures = [
 //     {
@@ -250,9 +379,30 @@ const Hero = ({ content }) => (
 
 //   const featuresToDisplay = (features && features.length > 0) ? features : defaultFeatures;
 
+//   // Heuristics to find "LIA" — adjust later if you prefer a specific field (e.g. `is_lia: true`)
+//   const isLia = (f) => {
+//     if (!f) return false;
+//     const hay = `${f.title || ''} ${f.description || ''} ${f.link_text || ''} ${f.slug || ''}`.toLowerCase();
+//     return (
+//       /\b(london international academy|london international academy|london international|london|lia)\b/i.test(hay) ||
+//       f.is_lia === true ||
+//       f.slug === 'lia'
+//     );
+//   };
+
+//   const liaFeature = featuresToDisplay.find(isLia) || null;
+//   const gpFeature = featuresToDisplay.find(f => f.youtube_url && f !== liaFeature) || null;
+
+//   const orderedFeatures = [
+//     ...(liaFeature ? [liaFeature] : []),
+//     ...(gpFeature && gpFeature !== liaFeature ? [gpFeature] : []),
+//     ...featuresToDisplay.filter(f => f !== liaFeature && f !== gpFeature)
+//   ];
+
 //   return (
 //     <div className="py-20 sm:py-28 bg-white">
 //       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         {/* Headline stays first */}
 //         <div className="text-center mb-16 sm:mb-20 space-y-4">
 //           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Top Leading Schools</h2>
 //           <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
@@ -261,20 +411,24 @@ const Hero = ({ content }) => (
 //         </div>
 
 //         <div className="space-y-16 sm:space-y-24">
-//           {featuresToDisplay.map((feature, index) => (
+//           {orderedFeatures.map((feature, index) => (
 //             <motion.div
-//               key={index}
+//               key={feature.link_url || feature.youtube_url || feature.title || index}
 //               initial={{ opacity: 0, y: 50 }}
 //               whileInView={{ opacity: 1, y: 0 }}
 //               transition={{ duration: 0.6, delay: 0.1 }}
 //               viewport={{ once: true, amount: 0.3 }}
 //               className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center"
 //             >
-//               <div id='lia-desc' className={`space-y-6 text-center lg:text-left ${feature.media_position === 'right' ? 'lg:order-1' : 'lg:order-2'}`}>
+//               {/* Description block */}
+//               <div
+//                 className={`space-y-6 text-center lg:text-left ${
+//                   feature.media_position === 'right' ? 'lg:order-1' : 'lg:order-2'
+//                 }`}
+//               >
 //                 {feature.show_rating ? (
 //                   <div className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
-//                     {/* Ratings */}
-//                     <div id='sch_rate' className="flex items-center gap-2">
+//                     <div className="flex items-center gap-2">
 //                       <div className="flex items-center">
 //                         {[...Array(5)].map((_, i) => (
 //                           <Star
@@ -293,18 +447,19 @@ const Hero = ({ content }) => (
 //                     </div>
 //                   </div>
 //                 ) : (
-//                   <div id='glb_icon' className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
+//                   <div className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
 //                     <IconResolver name={feature.icon} className="h-7 w-7 text-green-700" />
-//                     {/* Globe icon */}
 //                   </div>
 //                 )}
 
-//                 <h3 id='sch_link' className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+//                 <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
 //                   <Link to={feature.link_url || '#'} className="hover:text-green-700 transition-colors duration-200">
 //                     {feature.title}
 //                   </Link>
 //                 </h3>
+
 //                 <p className="text-lg text-slate-600 leading-relaxed">{feature.description}</p>
+
 //                 {feature.link_url && feature.link_text && (
 //                   <Link to={feature.link_url}>
 //                     <Button size="lg" className="mt-4 bg-green-600 hover:bg-green-700 text-white shadow-md">
@@ -315,7 +470,8 @@ const Hero = ({ content }) => (
 //                 )}
 //               </div>
 
-//               <div id='intro-desc' className={`relative ${feature.media_position === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
+//               {/* Media block */}
+//               <div className={`relative ${feature.media_position === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
 //                 <div className="bg-white p-2 rounded-2xl shadow-2xl border border-gray-100">
 //                   {feature.youtube_url ? (
 //                     <YouTubeEmbed url={feature.youtube_url} className="w-full h-56 sm:h-80 rounded-xl overflow-hidden" />
@@ -335,154 +491,6 @@ const Hero = ({ content }) => (
 //     </div>
 //   );
 // };
-
-const Features = ({ features }) => {
-  const defaultFeatures = [
-    {
-      icon: "School",
-      title: "Discover Top Schools",
-      description: "Explore thousands of programs from top institutions worldwide. Our smart filters help you find the perfect match for your academic and career goals.",
-      image_url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=800&q=80",
-      link_url: createPageUrl('Schools'),
-      link_text: "Explore Schools",
-      media_position: 'right'
-    },
-    {
-      icon: "Users",
-      title: "Expert Agent Guidance",
-      description: "Connect with verified education agents who can guide you through every step, from school selection to visa paperwork.",
-      youtube_url: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
-      link_url: createPageUrl('FindAgent'),
-      link_text: "Find an Agent",
-      media_position: 'left'
-    },
-    {
-      icon: "GraduationCap",
-      title: "Recommended For You: University of Toronto",
-      description: "A world-renowned university in a vibrant, multicultural city.",
-      image_url: "https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80",
-      link_url: createPageUrl('SchoolDetails?id=university-of-toronto'),
-      link_text: "View University",
-      media_position: 'right',
-      school_rating: 4.8,
-      show_rating: true
-    }
-  ];
-
-  const featuresToDisplay = (features && features.length > 0) ? features : defaultFeatures;
-
-  // Heuristics to find "LIA" — adjust later if you prefer a specific field (e.g. `is_lia: true`)
-  const isLia = (f) => {
-    if (!f) return false;
-    const hay = `${f.title || ''} ${f.description || ''} ${f.link_text || ''} ${f.slug || ''}`.toLowerCase();
-    return (
-      /\b(london international academy|london international academy|london international|london|lia)\b/i.test(hay) ||
-      f.is_lia === true ||
-      f.slug === 'lia'
-    );
-  };
-
-  const liaFeature = featuresToDisplay.find(isLia) || null;
-  const gpFeature = featuresToDisplay.find(f => f.youtube_url && f !== liaFeature) || null;
-
-  const orderedFeatures = [
-    ...(liaFeature ? [liaFeature] : []),
-    ...(gpFeature && gpFeature !== liaFeature ? [gpFeature] : []),
-    ...featuresToDisplay.filter(f => f !== liaFeature && f !== gpFeature)
-  ];
-
-  return (
-    <div className="py-20 sm:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Headline stays first */}
-        <div className="text-center mb-16 sm:mb-20 space-y-4">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">Top Leading Schools</h2>
-          <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            From finding the perfect program to landing in your new country, we've got every step covered.
-          </p>
-        </div>
-
-        <div className="space-y-16 sm:space-y-24">
-          {orderedFeatures.map((feature, index) => (
-            <motion.div
-              key={feature.link_url || feature.youtube_url || feature.title || index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center"
-            >
-              {/* Description block */}
-              <div
-                className={`space-y-6 text-center lg:text-left ${
-                  feature.media_position === 'right' ? 'lg:order-1' : 'lg:order-2'
-                }`}
-              >
-                {feature.show_rating ? (
-                  <div className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            className={`w-5 h-5 ${
-                              i < Math.floor(feature.school_rating || 4.5)
-                                ? 'text-yellow-400 fill-yellow-400'
-                                : 'text-gray-300'
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      <span className="text-sm font-semibold text-gray-700">
-                        {(feature.school_rating || 4.5).toFixed(1)}
-                      </span>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="inline-flex items-center justify-center bg-green-100 rounded-xl p-3">
-                    <IconResolver name={feature.icon} className="h-7 w-7 text-green-700" />
-                  </div>
-                )}
-
-                <h3 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                  <Link to={feature.link_url || '#'} className="hover:text-green-700 transition-colors duration-200">
-                    {feature.title}
-                  </Link>
-                </h3>
-
-                <p className="text-lg text-slate-600 leading-relaxed">{feature.description}</p>
-
-                {feature.link_url && feature.link_text && (
-                  <Link to={feature.link_url}>
-                    <Button size="lg" className="mt-4 bg-green-600 hover:bg-green-700 text-white shadow-md">
-                      {feature.link_text}
-                      <ArrowRight className="ml-2 w-5 h-5" />
-                    </Button>
-                  </Link>
-                )}
-              </div>
-
-              {/* Media block */}
-              <div className={`relative ${feature.media_position === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
-                <div className="bg-white p-2 rounded-2xl shadow-2xl border border-gray-100">
-                  {feature.youtube_url ? (
-                    <YouTubeEmbed url={feature.youtube_url} className="w-full h-56 sm:h-80 rounded-xl overflow-hidden" />
-                  ) : feature.image_url ? (
-                    <img src={feature.image_url} alt={feature.title} className="w-full h-auto object-cover rounded-xl" />
-                  ) : (
-                    <div className="w-full h-56 sm:h-80 bg-gradient-to-br from-slate-100 to-slate-200 rounded-xl flex items-center justify-center">
-                      <IconResolver name={feature.icon} className="h-16 w-16 text-slate-400" />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 
 const GainEvent = () => {
@@ -989,7 +997,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <Hero content={content} />
-      <Features features={content?.features_section} />
+      <Features features={content?.features_section} showIndex={1}/>
+      <Features features={content?.features_section} showIndex={0}/>
       <GainEvent/>
       <SchoolProgramsSection content={content} schools={schools} />
       <Stats stats={content?.stats_section} />
