@@ -919,6 +919,131 @@ const FinalCTA = ({ ctaContent }) => (
   </div>
 );
 
+const OurLeaders = ({ leaders }) => {
+  const defaultLeaders = [
+    {
+      id: 1,
+      name: "Jane Doe",
+      title: "Senior Developer",
+      email: "jane.doe@email.com",
+      phone: "+63 912 345 6789",
+      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e",
+      bio: "I am a senior developer"
+    },
+    {
+      id: 2,
+      name: "John Smith",
+      title: "Project Manager",
+      email: "john.smith@email.com",
+      phone: "+63 923 456 7890",
+      image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c",
+      bio: "I am a project manager"
+    },
+    {
+      id: 3,
+      name: "Maria Garcia",
+      title: "UX Designer",
+      email: "maria.garcia@email.com",
+      phone: "+63 934 567 8901",
+      image: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+      bio: "I am a UX designer"
+    }
+  ];
+
+  // Checks if there are leaders in backend API, if not, display default
+  const displayLeaders = leaders && leaders.length > 0 ? leaders : defaultLeaders;
+
+  return (
+    <div className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900">Our Leaders</h2>
+          <p className="text-xl text-slate-600">
+            Meet the people guiding our vision and strategy
+          </p>
+        </div>
+
+        {displayLeaders && displayLeaders.length > 0 ? (
+  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {displayLeaders.map((leader) => (
+      <ProfileCard key={leader.id} {...leader} />
+    ))}
+  </div>
+        ) : (
+          <div className="text-center py-12">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-slate-100 to-slate-200 rounded-full mb-4">
+              <Users className="w-8 h-8 text-slate-600" />
+            </div>
+            <p className="text-slate-600 text-lg">
+              No leaders available at the moment. Please check back soon!
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ProfileCard = ({ name, title, email, phone, image, bio }) => {
+  const [active, setActive] = useState(false);
+
+  return (
+    <div
+      className="profile-card group relative h-96 rounded-xl overflow-hidden shadow-md cursor-pointer"
+      onClick={() => setActive(!active)}
+    >
+      {/* Background profile image */}
+      <img
+        src={image}
+        alt={`${name} Profile Picture`}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+
+      {/* Bottom gradient only */}
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black/80 via-black/60 to-transparent"></div>
+
+      {/* Full dark overlay (hover or click) */}
+      <div
+        className={`absolute inset-0 bg-black/60 transition-opacity duration-300 ${
+          active ? "opacity-0" : "opacity-0 group-hover:opacity-100"
+        }`}
+      ></div>
+
+      {/* Default state */}
+      <div
+        className={`absolute bottom-0 left-0 w-full p-4 text-center text-white default-view ${
+          active ? "block" : "group-hover:hidden"
+        }`}
+      >
+        <h2 className="text-xl font-bold">{name}</h2>
+        <p className="text-sm">{title}</p>
+      </div>
+
+      {/* Hover/Click state */}
+      <div
+        className={`absolute top-0 left-0 w-full h-full p-4 text-left text-white details-view hidden flex-col justify-between ${
+          active ? "flex" : "group-hover:flex"
+        }`}
+      >
+        <div id="top-section" className="pb-8">
+          <h2 className="text-xl font-bold">{name}</h2>
+          <p className="text-sm pb-4">{title}</p>
+          <hr />
+        </div>
+        <div id="bio">
+          <p className=" text-sm text-center">{bio}</p>
+        </div>
+        <div id="bottom-section" className="pt-8">
+          <hr />
+          {email && <p className="text-sm pt-4">{email}</p>}
+          {phone && <p className="text-sm">{phone}</p>}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+
 /* =========================
    Page
 ========================= */
@@ -1004,6 +1129,7 @@ export default function Home() {
       <Stats stats={content?.stats_section} />
       <Testimonials testimonials={content?.testimonials_section} />
       <UpcomingEvents events={events} />
+      <OurLeaders/>
       <FinalCTA ctaContent={content?.final_cta_section} />
     </div>
   );
